@@ -1,12 +1,20 @@
+import { useState } from "react";
+
 function MyButton() {
+  const [clickCount, setClickCount] = useState(0)
+
   function handleClick() {
-    alert('You clicked me!');
+    console.log("Button clicked!");
+    setClickCount(clickCount + 1)
   }
 
   return (
-    <button onClick={handleClick}>
-      Click me
-    </button>
+    <>
+      <div> You clicked the button {clickCount} times. </div>
+      <button onClick={handleClick}>
+        Click me
+      </button>
+    </>
   );
 }
 export default function App() {
