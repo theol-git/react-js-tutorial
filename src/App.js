@@ -1,22 +1,16 @@
-const products = [
-  { title: 'Cabbage', isFruit: false, id: 1 },
-  { title: 'Garlic', isFruit: false, id: 2 },
-  { title: 'Apple', isFruit: true, id: 3 },
-];
+function MyButton() {
+  function handleClick() {
+    alert('You clicked me!');
+  }
 
-
-export default function ShoppingList() {
-  const content = products.map(product =>
-    <li
-      key={product.id}
-      style={{
-        color: product.isFruit ? 'magenta' : 'darkgreen'
-      }}
-    >
-      {product.title}
-    </li>
-  )
   return (
-    <ul>{content}</ul>
+    <button onClick={handleClick}>
+      Click me
+    </button>
+  );
+}
+export default function App() {
+  return (
+    <MyButton />
   )
 }
