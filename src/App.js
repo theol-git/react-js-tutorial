@@ -10,7 +10,7 @@ function MyButton() {
 
   return (
     <>
-      <div> You clicked the button {clickCount} times. </div>
+      <div> You clicked this button {clickCount} times. </div>
       <button onClick={handleClick}>
         Click me
       </button>
@@ -19,6 +19,10 @@ function MyButton() {
 }
 export default function App() {
   return (
-    <MyButton />
+    <div>
+      <h1>Counters that update seperately</h1>
+      <MyButton />
+      <MyButton />
+    </div>
   )
 }
