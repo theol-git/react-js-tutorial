@@ -12,6 +12,10 @@ export default function Board() {
   const [squares, setSquares] = useState(Array(9).fill(null));
 
   function handleSquareClick(squareIndex) {
+    if (squares[squareIndex] ){
+      return; 
+    }
+
     const tempSquares = [...squares]; // shallow copy
 
     tempSquares[squareIndex] = isXTurn ? "X" : "O";
