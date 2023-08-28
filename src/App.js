@@ -48,6 +48,22 @@ function Board({ isXTurn, squares, onPlay }) {
   } else {
     status = `Next player: ${isXTurn ? "X" : "O"}`;
   }
+  const board = Array(3).map((_, rowIndex) => {
+    return (
+      <div className="board-row">
+        Array(3).map(
+        {(_, colIndex) => {
+          return (
+            <Square
+              value={squares[rowIndex * 3 + colIndex]}
+              onSquareClick={() => handleSquareClick(0)}
+            />
+          );
+        }}
+        );
+      </div>
+    );
+  });
   return (
     <div>
       <div className="status">{status}</div>
@@ -69,9 +85,11 @@ function Board({ isXTurn, squares, onPlay }) {
     </div>
   );
 }
+
 export default function Game() {
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
+  const [isHistoryAscending, setIsHistoryAscending] = useState(true);
   const isXTurn = currentMove % 2 == 0;
   const currentSquares = history[currentMove];
 
@@ -85,7 +103,19 @@ export default function Game() {
     setCurrentMove(nextMove);
   }
 
-  const moves = history.map((_squares, move) => {
+  function changeHistoryOrder() {
+    setIsHistoryAscending(!isHistoryAscending);
+  }
+
+  const moves = history.map((_squares, index, history) => {
+    const move = isHistoryAscending ? index : history.length - 1 - index;
+    if (move == currentMove) {
+      return (
+        <li key={move}>
+          <div>You are at move #{move}</div>
+        </li>
+      );
+    }
     const description = move === 0 ? "Go to game start" : `Go to move #${move}`;
     return (
       <li key={move}>
@@ -93,13 +123,15 @@ export default function Game() {
       </li>
     );
   });
+
   return (
     <div className="game">
       <div className="game-board">
         <Board isXTurn={isXTurn} squares={currentSquares} onPlay={handlePlay} />
       </div>
       <div className="game-info">
-        <ol>{moves}</ol>
+        <button onClick={changeHistoryOrder}>Change history order</button>
+        <ol reversed={!isHistoryAscending}>{moves}</ol>
       </div>
     </div>
   );
