@@ -70,23 +70,25 @@ function Board({ isXTurn, squares, onPlay }) {
   );
 }
 export default function Game() {
-  const [isXTurn, setIsXTurn] = useState(true);
   const [history, setHistory] = useState([Array(9).fill(null)]);
-  const currentSquares = history[history.length - 1];
+  const [currentMove, setCurrentMove] = useState(0);
+  const isXTurn = currentMove % 2 == 0;
+  const currentSquares = history[currentMove];
 
   function handlePlay(nextSquares) {
-    setHistory([...history, nextSquares]);
-    setIsXTurn(!isXTurn);
+    const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
+    setHistory(nextHistory);
+    setCurrentMove(nextHistory.length - 1);
   }
 
   function jumpTo(nextMove) {
-    // TODO
+    setCurrentMove(nextMove);
   }
 
   const moves = history.map((_squares, move) => {
     const description = move === 0 ? "Go to game start" : `Go to move #${move}`;
     return (
-      <li>
+      <li key={move}>
         <button onClick={() => jumpTo(move)}>{description}</button>
       </li>
     );
@@ -97,7 +99,7 @@ export default function Game() {
         <Board isXTurn={isXTurn} squares={currentSquares} onPlay={handlePlay} />
       </div>
       <div className="game-info">
-        <ol></ol>
+        <ol>{moves}</ol>
       </div>
     </div>
   );
